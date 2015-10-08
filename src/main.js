@@ -3,7 +3,6 @@ var moment = require('moment');
 var Wsocket = require('@saio/wsocket-component');
 var Db = require('@saio/db-component');
 var Config = require('./config.js');
-var uuid = require('node-uuid');
 
 var CustomerService = function(container, options) {
   var config = Config.build(options);
@@ -13,19 +12,19 @@ var CustomerService = function(container, options) {
 
 CustomerService.prototype.start = function() {
   var promises = [
-    this.ws.register('fr.saio.api.internal.customer.getAll',
+    this.ws.register('fr.saio.api.customer.getAll',
       this.getAll.bind(this),
       { invoke: 'roundrobin'}),
-    this.ws.register('fr.saio.api.internal.customer.get.',
+    this.ws.register('fr.saio.api.customer.get.',
       this.get.bind(this),
       { match: 'wildcard', invoke: 'roundrobin'}),
-    this.ws.register('fr.saio.api.internal.customer.create',
+    this.ws.register('fr.saio.api.customer.create',
       this.create.bind(this),
       { invoke: 'roundrobin'}),
-    this.ws.register('fr.saio.api.internal.customer.update.',
+    this.ws.register('fr.saio.api.customer.update.',
       this.update.bind(this),
       { match: 'wildcard', invoke: 'roundrobin'}),
-    this.ws.register('fr.saio.api.internal.customer.delete.',
+    this.ws.register('fr.saio.api.customer.delete.',
       this.delete.bind(this),
       { match: 'wildcard', invoke: 'roundrobin'})
   ];
@@ -52,12 +51,12 @@ CustomerService.prototype.getAll = function(args, kwargs, details) {
 };
 
 /**
- * details.wildcards[0]: license
+ * details.wildcards[0]: id
  */
 CustomerService.prototype.get = function(args, kwargs, details) {
 
   return this.db.model.Customer.findOne({
-    where: {license: details.wildcards[0]}
+    where: {id: details.wildcards[0]}
   }).catch((err) => {
     console.log(err.message);
     throw new Error('Internal server error');
@@ -70,7 +69,6 @@ CustomerService.prototype.get = function(args, kwargs, details) {
 CustomerService.prototype.create = function(args, kwargs, details) {
 
   return this.db.model.Customer.create({
-    license: uuid.v4(),
     name: kwargs.customer.name,
     maxUsers: kwargs.customer.maxUsers
   }).catch((err) => {
@@ -81,12 +79,12 @@ CustomerService.prototype.create = function(args, kwargs, details) {
 
 /**
  * kwargs.customer: object
- * details.wildcards[0]: license
+ * details.wildcards[0]: id
  */
 CustomerService.prototype.update = function(args, kwargs, details) {
 
   return this.db.model.Customer.findOne({
-    where: {license: details.wildcards[0]}
+    where: {id: details.wildcards[0]}
   }).then((customer) => {
     if (customer) {
       return customer.update({
@@ -105,12 +103,12 @@ CustomerService.prototype.update = function(args, kwargs, details) {
 };
 
 /**
- * details.wildcards[0]: license
+ * details.wildcards[0]: id
  */
 CustomerService.prototype.delete = function(args, kwargs, details) {
 
   return this.db.model.Customer.findOne({
-    where: {license: details.wildcards[0]}
+    where: {id: details.wildcards[0]}
   }).then((customer) => {
     return customer.destroy();
   }).catch((err) => {

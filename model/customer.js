@@ -1,18 +1,22 @@
-module.exports = function(sequelize, Datatypes) {
+module.exports = function(sequelize, DataTypes) {
+
   var model = {
-    license: {
-      type: Datatypes.STRING,
-      allowNull: false
+    id: {
+      primaryKey: true,
+      allowNull: false,
+      unique: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1
     },
     name: {
-      type: Datatypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true
       }
     },
     maxUsers: {
-      type: Datatypes.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         min: 1

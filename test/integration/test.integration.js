@@ -76,7 +76,7 @@ tape('create an invalid customer with undefined values', function(t) {
 });
 
 // We will use it later to get, update, delete the created customer.
-var license = null;
+var customerId = null;
 
 tape('create a valid customer', function(t) {
 
@@ -94,7 +94,7 @@ tape('create a valid customer', function(t) {
   return tester.start()
   .then(function() {
     return client.createCustomer(customer).then(function(res) {
-      license = res.license;
+      customerId = res.id;
       t.pass('customer created');
       return tester.stop();
     }).catch(function(err) {
@@ -138,7 +138,7 @@ tape('get a specific customer', function(t) {
   var client = tester.service.randomService;
   return tester.start()
   .then(function() {
-    return client.getCustomer(license).then(function(res) {
+    return client.getCustomer(customerId).then(function(res) {
       if (res.name === 'saio' && res.maxUsers === 2) {
         t.pass('customer created & can be retrieved');
       } else {
@@ -167,7 +167,7 @@ tape('update a specific customer', function(t) {
   var client = tester.service.randomService;
   return tester.start()
   .then(function() {
-    return client.updateCustomer(license, customer).then(function(res) {
+    return client.updateCustomer(customerId, customer).then(function(res) {
       if (res.name === 'saio v2' && res.maxUsers === 8) {
         t.pass('customer updated & can be retrieved');
       } else {
@@ -191,7 +191,7 @@ tape('delete a specific customer', function(t) {
   var client = tester.service.randomService;
   return tester.start()
   .then(function() {
-    return client.deleteCustomer(license).then(function(res) {
+    return client.deleteCustomer(customerId).then(function(res) {
       return client.getAll().then(function(res) {
         if (_.isEmpty(res)) {
           t.pass('customer has been deleted');

@@ -22,23 +22,23 @@ RandomService.prototype.stop = function() {
 };
 
 RandomService.prototype.getAll = function() {
-  return this.ws.call('fr.saio.api.internal.customer.getAll');
+  return this.ws.call('fr.saio.api.customer.getAll');
 };
 
 RandomService.prototype.getCustomer = function(license) {
-  return this.ws.call('fr.saio.api.internal.customer.get.' + license);
+  return this.ws.call('fr.saio.api.customer.get.' + license);
 };
 
 RandomService.prototype.createCustomer = function(customer) {
-  return this.ws.call('fr.saio.api.internal.customer.create', [], {customer: customer});
+  return this.ws.call('fr.saio.api.customer.create', [], {customer: customer});
 };
 
 RandomService.prototype.updateCustomer = function(license, customer) {
-  return this.ws.call('fr.saio.api.internal.customer.update.' + license, [], {customer: customer});
+  return this.ws.call('fr.saio.api.customer.update.' + license, [], {customer: customer});
 };
 
 RandomService.prototype.deleteCustomer = function(license) {
-  return this.ws.call('fr.saio.api.internal.customer.delete.' + license);
+  return this.ws.call('fr.saio.api.customer.delete.' + license);
 };
 
 module.exports = RandomService;
