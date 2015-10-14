@@ -1,9 +1,11 @@
 #!/bin/env bash
 
+# pull images
+gcloud docker pull eu.gcr.io/saio-fr/crossbar:master
+
 # install
-docker build -t customer-crossbar -f tasks/integration/dockerfiles/crossbarDockerfile .;
-docker build -t customer-service -f tasks/integration/dockerfiles/customerDockerfile .;
-docker build -t customer-test -f tasks/integration/dockerfiles/testDockerfile .;
+docker build -t customer-service -f Dockerfile .;
+docker build -t customer-test -f tasks/integration/Dockerfile .;
 
 # start services
 echo "starting database...";
@@ -16,7 +18,7 @@ sleep 4;
 echo "starting crossbar...";
 docker run -d \
   --name customer-crossbar \
-  customer-crossbar;
+  eu.gcr.io/saio-fr/crossbar:master;
 sleep 4;
 
 echo "starting customer service...";
