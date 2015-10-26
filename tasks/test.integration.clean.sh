@@ -1,6 +1,7 @@
 #!/bin/env bash
 
 # stop
+docker stop customer-test;
 docker stop customer-service;
 docker stop customer-crossbar;
 docker stop customer-db;

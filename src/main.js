@@ -32,6 +32,8 @@ CustomerService.prototype.start = function() {
   Promise.all(promises).then(function() {
     console.log('customer-service started');
     return Promise.resolve();
+  }).catch(function(err) {
+    console.log(err);
   });
 };
 
