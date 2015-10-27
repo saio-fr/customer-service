@@ -15,8 +15,15 @@ docker run -d \
 sleep 20;
 
 echo "creating databases...";
-docker exec -d customer-db memsql-shell -e \
-"create database customer;";
+# docker exec doest not work in circle ci.
+# docker exec -d customer-db memsql-shell -e \
+# "create database customer;";
+docker run --rm \
+	--name customer-mysql-client \
+	--link customer-db:db \
+	mysql sh -c \
+	'mysql -h "$DB_PORT_3306_TCP_ADDR" -u root \
+	--execute="create database customer;"';
 sleep 20;
 
 echo "starting crossbar...";
