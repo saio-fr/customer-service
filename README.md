@@ -2,12 +2,12 @@
 
 ### Public api
 
-**call@fr.saio.api.customer.get.<customerId>**
+**call@fr.saio.api.customer.get.[customerId]**
 ```
 input: null
 output: customer
 ```
-**call@fr.saio.api.customer.getAll>**
+**call@fr.saio.api.customer.getAll**
 ```
 input: null
 output: [customer]
@@ -20,7 +20,7 @@ input: customer {
 }
 output: customer
 ```
-**call@fr.saio.api.customer.update.<customerId>**
+**call@fr.saio.api.customer.update.[customerId]**
 ```
 input: customer {
   firstname: String,
@@ -32,7 +32,7 @@ input: customer {
 }
 output: customer
 ```
-**call@fr.saio.api.customer.delete.<customerId>**
+**call@fr.saio.api.customer.delete.[customerId]**
 ```
 input: null
 output: null
